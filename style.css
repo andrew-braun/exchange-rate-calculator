@@ -54,11 +54,13 @@ select:focus {
 }
 
 .btn {
-	padding: 1rem 1.5rem;
+	margin: 0.5rem;
+	padding: 0.5rem 1rem;
 	border: none;
 	border-radius: 0.8rem;
 	background: var(--primary);
 	font-size: 0.9rem;
+	font-weight: 600;
 	color: var(--light);
 	cursor: pointer;
 	transition: transform 0.25s ease-in-out, opacity 0.1s ease-in-out;
@@ -129,15 +131,19 @@ button:focus {
 }
 
 .swap-rates-container {
-	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	text-align: center;
 	margin: 2rem;
 }
 
 .rate {
 	padding: 0 1rem;
-	color: var(--primary);
-	font-size: 1.1rem;
+	color: var(--dark);
+	font-weight: 800;
+	font-size: 1.3rem;
 }
 
 /* Animations */
@@ -150,9 +156,12 @@ button:focus {
 	}
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1050px) {
 	.swap-rates-container {
+		flex-direction: row;
 		width: 100%;
 		margin: 0;
+	}
+	.rate {
 	}
 }

@@ -1,21 +1,40 @@
-const currency1 = document.querySelector("#currency-1");
-const currency2 = document.querySelector("#currency-2");
-const amount1 = document.querySelector("#amount-1");
-const amount2 = document.querySelector("#amount-2");
-const rate = document.querySelector("#rate");
+const currency1Element = document.querySelector("#currency-1");
+const currency2Element = document.querySelector("#currency-2");
+const amount1Element = document.querySelector("#amount-1");
+const amount2Element = document.querySelector("#amount-2");
+const rateElement = document.querySelector("#rate");
 const swap = document.querySelector("#swap");
 
 /* Fetch exchange rates, update DOM */
 
 const apiKey = config.exchangeRateKey;
 
-function calculate() {
-	console.log("Calc");
+async function fetchRates(currency, key) {
+	const response = await fetch(
+		`https://v6.exchangerate-api.com/v6/${key}/latest/${currency}`
+	);
+	const rates = await response.json();
+	return rates;
 }
 
+function calculate() {
+	const currency1 = currency1Element.value;
+	const currency2 = currency2Element.value;
+
+	const rates = fetchRates(currency1, apiKey).then((data) => {
+		// console.log(data);
+		const rate = data.conversion_rates[currency2];
+		rateElement.innerText = `1 ${currency1} = ${rate} ${currency2}`;
+
+		amount2Element.value = (amount1Element.value * rate).toFixed(2);
+	});
+}
+
+console.log(calculate());
+
 // Event listeners
-currency1.addEventListener("onChange", calculate);
-currency2.addEventListener("onChange", calculate);
-amount1.addEventListener("input", calculate);
-amount2.addEventListener("input", calculate);
-swap.addEventListener("click", swap);
+currency1Element.addEventListener("input", calculate);
+currency2Element.addEventListener("input", calculate);
+amount1Element.addEventListener("input", calculate);
+amount2Element.addEventListener("input", calculate);
+// swap.addEventListener("click", swap);
