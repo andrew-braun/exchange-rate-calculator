@@ -30,11 +30,16 @@ function calculate() {
 	});
 }
 
-console.log(calculate());
+function reverse() {
+	const temp = currency1Element.value;
+	currency1Element.value = currency2Element.value;
+	currency2Element.value = temp;
+	calculate();
+}
 
 // Event listeners
 currency1Element.addEventListener("input", calculate);
 currency2Element.addEventListener("input", calculate);
 amount1Element.addEventListener("input", calculate);
 amount2Element.addEventListener("input", calculate);
-// swap.addEventListener("click", swap);
+swap.addEventListener("click", reverse);
