@@ -9,9 +9,8 @@
 	<body>
 		<img src="img/money.png" class="money-img" alt="" />
 		<h1>Calculate exchange rates</h1>
-		<h2>What's your money worth around the world?</h2>
 		<p>Pick a currency, enter an amount, and see if you feel richer!</p>
-
+		<div class="rate" id="rate"></div>
 		<div class="convert-container">
 			<div class="currency">
 				<label for="currency-1"></label>
@@ -75,7 +74,6 @@
 			</div>
 
 			<div class="swap-rates-container">
-				<div class="rate" id="rate"></div>
 				<button class="btn" id="swap">Reverse</button>
 			</div>
 
@@ -137,9 +135,10 @@
 					<option value="ZAR">ZAR</option>
 				</select>
 				<label for="amount-2"></label>
-				<input type="number" id="amount-2" placeholder="0" />
+				<input type="number" id="amount-2" step="any" placeholder="0" />
 			</div>
 		</div>
+
 		<script src="config.js"></script>
 		<script src="script.js"></script>
 	</body>

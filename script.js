@@ -24,7 +24,7 @@ function calculate() {
 	const rates = fetchRates(currency1, apiKey).then((data) => {
 		// console.log(data);
 		const rate = data.conversion_rates[currency2];
-		rateElement.innerText = `1 ${currency1} = ${rate} ${currency2}`;
+		rateElement.innerHTML = `1 <span class="rate-1">${currency1}</span> = ${rate} <span class="rate-2">${currency2}</span>`;
 
 		amount2Element.value = (amount1Element.value * rate).toFixed(2);
 	});
