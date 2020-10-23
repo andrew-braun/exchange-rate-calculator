@@ -6,13 +6,11 @@ const rateElement = document.querySelector("#rate");
 const swap = document.querySelector("#swap");
 
 /* Fetch exchange rates, update DOM */
-
 const apiKey = config.exchangeRateKey;
 
 async function fetchRates(currency, key) {
-	const response = await fetch(
-		`https://v6.exchangerate-api.com/v6/${key}/latest/${currency}`
-	);
+	const apiProxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
+	const response = await fetch(`${apiProxy}`);
 	const rates = await response.json();
 	return rates;
 }
