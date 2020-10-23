@@ -10,7 +10,8 @@ const apiKey = config.exchangeRateKey;
 
 async function fetchRates(currency, key) {
 	const apiProxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
-	const response = await fetch(`${apiProxy}`);
+	const apiSource = `https://v6.exchangerate-api.com/v6/${key}/latest/${currency}`;
+	const response = await fetch(`${apiSource}`);
 	const rates = await response.json();
 	return rates;
 }
