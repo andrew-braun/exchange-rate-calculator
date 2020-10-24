@@ -6,29 +6,9 @@ const rateElement = document.querySelector("#rate");
 const swap = document.querySelector("#swap");
 
 /* Fetch exchange rates, update DOM */
-// const apiKey = config.exchangeRateKey;
 
-async function testRates() {
-	const proxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
-	// const response = await fetch(`https://v6.exchangerate-api.com/v6/latest/USD`);
-	const response = await fetch(`${proxy}/latest/USD`);
-	const rates = await response.json();
-	console.log(rates);
-}
-
-console.log(testRates());
-
-async function testWeather() {
-	const proxy = "https://shadow-rain-api-proxy.herokuapp.com/weather";
-	// const response = await fetch(`https://v6.exchangerate-api.com/v6/latest/USD`);
-	const response = await fetch(`${proxy}?q=tbilisi`);
-	const rates = await response.json();
-	console.log(rates);
-}
-
-console.log(testWeather());
-
-async function fetchRates(currency, key) {
+async function fetchRates(currency) {
+	// Using a Heroku proxy server to store API key and make requests
 	const apiProxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
 	// const apiSource = `https://v6.exchangerate-api.com/v6/${key}/latest/${currency}`;
 	const response = await fetch(`${apiProxy}/latest/${currency}`);
@@ -40,7 +20,7 @@ function calculate() {
 	const currency1 = currency1Element.value;
 	const currency2 = currency2Element.value;
 
-	const rates = fetchRates(currency1, apiKey).then((data) => {
+	const rates = fetchRates(currency1).then((data) => {
 		// console.log(data);
 		const rate = data.conversion_rates[currency2];
 		rateElement.innerHTML = `1 <span class="rate-1">${currency1}</span> = ${rate} <span class="rate-2">${currency2}</span>`;
