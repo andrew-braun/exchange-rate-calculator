@@ -8,10 +8,30 @@ const swap = document.querySelector("#swap");
 /* Fetch exchange rates, update DOM */
 const apiKey = config.exchangeRateKey;
 
+async function testRates() {
+	const proxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
+	// const response = await fetch(`https://v6.exchangerate-api.com/v6/latest/USD`);
+	const response = await fetch(`${proxy}/latest/USD`);
+	const rates = await response.json();
+	console.log(rates);
+}
+
+console.log(testRates());
+
+async function testWeather() {
+	const proxy = "https://shadow-rain-api-proxy.herokuapp.com/weather";
+	// const response = await fetch(`https://v6.exchangerate-api.com/v6/latest/USD`);
+	const response = await fetch(`${proxy}?q=tbilisi`);
+	const rates = await response.json();
+	console.log(rates);
+}
+
+console.log(testWeather());
+
 async function fetchRates(currency, key) {
 	const apiProxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
-	const apiSource = `https://v6.exchangerate-api.com/v6/${key}/latest/${currency}`;
-	const response = await fetch(`${apiSource}`);
+	// const apiSource = `https://v6.exchangerate-api.com/v6/${key}/latest/${currency}`;
+	const response = await fetch(`${apiProxy}/latest/${currency}`);
 	const rates = await response.json();
 	return rates;
 }
