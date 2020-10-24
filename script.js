@@ -6,7 +6,7 @@ const rateElement = document.querySelector("#rate");
 const swap = document.querySelector("#swap");
 
 /* Fetch exchange rates, update DOM */
-const apiKey = config.exchangeRateKey;
+// const apiKey = config.exchangeRateKey;
 
 async function testRates() {
 	const proxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
