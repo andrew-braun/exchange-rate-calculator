@@ -36,6 +36,7 @@ function reverse() {
 	calculate();
 }
 
+calculate();
 // Event listeners
 currency1Element.addEventListener("input", calculate);
 currency2Element.addEventListener("input", calculate);
