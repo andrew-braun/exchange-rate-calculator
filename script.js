@@ -7,39 +7,54 @@ const swap = document.querySelector("#swap");
 
 /* Fetch exchange rates, update DOM */
 
+let primaryCurrencyRate;
+
 async function fetchRates(currency) {
 	// Using a Heroku proxy server to store API key and make requests
 	const apiProxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
 	// const apiSource = `https://v6.exchangerate-api.com/v6/${key}/latest/${currency}`;
 	const response = await fetch(`${apiProxy}/latest/${currency}`);
 	const rates = await response.json();
+	primaryCurrencyRate = await rates;
 	return rates;
 }
 
-function calculate() {
+function primaryCurrencyChange() {
 	const currency1 = currency1Element.value;
 	const currency2 = currency2Element.value;
 
 	const rates = fetchRates(currency1).then((data) => {
 		// console.log(data);
 		const rate = data.conversion_rates[currency2];
-		rateElement.innerHTML = `1 <span class="rate-1">${currency1}</span> = ${rate} <span class="rate-2">${currency2}</span>`;
-
-		amount2Element.value = (amount1Element.value * rate).toFixed(2);
+		generateRatesHTML(currency1, currency2, rate);
 	});
+}
+
+function secondaryCurrencyChange() {
+	const currency1 = currency1Element.value;
+	const currency2 = currency2Element.value;
+
+	const rate = primaryCurrencyRate.conversion_rates[currency2];
+	generateRatesHTML(currency1, currency2, rate);
+}
+
+function generateRatesHTML(currency1, currency2, rate) {
+	rateElement.innerHTML = `1 <span class="rate-1">${currency1}</span> = ${rate} <span class="rate-2">${currency2}</span>`;
+
+	amount2Element.value = (amount1Element.value * rate).toFixed(2);
 }
 
 function reverse() {
 	const temp = currency1Element.value;
 	currency1Element.value = currency2Element.value;
 	currency2Element.value = temp;
-	calculate();
+	primaryCurrencyChange();
 }
 
-calculate();
+primaryCurrencyChange();
 // Event listeners
-currency1Element.addEventListener("input", calculate);
-currency2Element.addEventListener("input", calculate);
-amount1Element.addEventListener("input", calculate);
-amount2Element.addEventListener("input", calculate);
+currency1Element.addEventListener("input", primaryCurrencyChange);
+currency2Element.addEventListener("input", secondaryCurrencyChange);
+amount1Element.addEventListener("input", primaryCurrencyChange);
+amount2Element.addEventListener("input", primaryCurrencyChange);
 swap.addEventListener("click", reverse);
