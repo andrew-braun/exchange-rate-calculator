@@ -11,10 +11,7 @@ async function fetchRates(currency) {
 	// Using a Heroku proxy server to store API key and make requests
 	const apiProxy = "https://shadow-rain-api-proxy.herokuapp.com/exchange";
 	// const apiSource = `https://v6.exchangerate-api.com/v6/${key}/latest/${currency}`;
-	const response = await fetch(`${apiProxy}/latest/${currency}`, {
-		method: "GET",
-		mode: "no-cors",
-	});
+	const response = await fetch(`${apiProxy}/latest/${currency}`);
 	const rates = await response.json();
 	return rates;
 }
