@@ -19,7 +19,7 @@ async function fetchRates(currency) {
 	return rates;
 }
 
-function primaryCurrencyChange() {
+function handlePrimaryCurrencyChange() {
 	const currency1 = currency1Element.value;
 	const currency2 = currency2Element.value;
 
@@ -30,31 +30,34 @@ function primaryCurrencyChange() {
 	});
 }
 
-function secondaryCurrencyChange() {
+function secondaryCurrencyChange(event) {
 	const currency1 = currency1Element.value;
 	const currency2 = currency2Element.value;
-
 	const rate = primaryCurrencyRate.conversion_rates[currency2];
-	generateRatesHTML(currency1, currency2, rate);
+	const target = event.target.id;
+
+	generateRatesHTML(currency1, currency2, rate, target);
 }
 
-function generateRatesHTML(currency1, currency2, rate) {
+function generateRatesHTML(currency1, currency2, rate, target) {
 	rateElement.innerHTML = `1 <span class="rate-1">${currency1}</span> = ${rate} <span class="rate-2">${currency2}</span>`;
 
-	amount2Element.value = (amount1Element.value * rate).toFixed(2);
+	target === "amount-1"
+		? (amount2Element.value = (amount1Element.value * rate).toFixed(2))
+		: (amount1Element.value = (amount2Element.value * (1 / rate)).toFixed(2));
 }
 
 function reverse() {
 	const temp = currency1Element.value;
 	currency1Element.value = currency2Element.value;
 	currency2Element.value = temp;
-	primaryCurrencyChange();
+	handlePrimaryCurrencyChange();
 }
 
-primaryCurrencyChange();
+handlePrimaryCurrencyChange();
 // Event listeners
-currency1Element.addEventListener("input", primaryCurrencyChange);
+currency1Element.addEventListener("input", handlePrimaryCurrencyChange);
 currency2Element.addEventListener("input", secondaryCurrencyChange);
-amount1Element.addEventListener("input", primaryCurrencyChange);
-amount2Element.addEventListener("input", primaryCurrencyChange);
+amount1Element.addEventListener("input", secondaryCurrencyChange);
+amount2Element.addEventListener("input", secondaryCurrencyChange);
 swap.addEventListener("click", reverse);
