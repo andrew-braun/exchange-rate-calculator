@@ -19,45 +19,62 @@ async function fetchRates(currency) {
 	return rates;
 }
 
-function handlePrimaryCurrencyChange() {
+function handleCurrencyChange(event) {
+	// Set currency variables to the values set in the DOM
 	const currency1 = currency1Element.value;
 	const currency2 = currency2Element.value;
 
-	const rates = fetchRates(currency1).then((data) => {
-		// console.log(data);
-		const rate = data.conversion_rates[currency2];
-		generateRatesHTML(currency1, currency2, rate);
-	});
+	// If called by event handler, find id of target
+	const target = event ? event.target.id : null;
+
+	// If primary currency is changed, initiate fetch and render
+	// Else, find stored data and use that to calculate
+	if (target === "currency-1" || target === null) {
+		fetchRates(currency1).then((data) => {
+			const rate = data.conversion_rates[currency2];
+			generateRatesHTML(currency1, currency2, rate, target);
+		});
+	} else {
+		const rate = primaryCurrencyRate.conversion_rates[currency2];
+		generateRatesHTML(currency1, currency2, rate, target);
+	}
 }
 
-function secondaryCurrencyChange(event) {
-	const currency1 = currency1Element.value;
-	const currency2 = currency2Element.value;
-	const rate = primaryCurrencyRate.conversion_rates[currency2];
-	const target = event.target.id;
-
-	generateRatesHTML(currency1, currency2, rate, target);
-}
-
+/* Change the values in the input fields based on the currencies selected 
+as well as which field was changed */
 function generateRatesHTML(currency1, currency2, rate, target) {
 	rateElement.innerHTML = `1 <span class="rate-1">${currency1}</span> = ${rate} <span class="rate-2">${currency2}</span>`;
 
-	target === "amount-1"
-		? (amount2Element.value = (amount1Element.value * rate).toFixed(2))
-		: (amount1Element.value = (amount2Element.value * (1 / rate)).toFixed(2));
+	// Functions to change input values in DOM
+	const changeAmount1 = () => {
+		amount1Element.value = (amount2Element.value * (1 / rate)).toFixed(2);
+	};
+	const changeAmount2 = () => {
+		amount2Element.value = (amount1Element.value * rate).toFixed(2);
+	};
+
+	// Change the second amount field unless it is the one being targeted
+	if (target === "amount-2") {
+		changeAmount1();
+	} else {
+		changeAmount2();
+	}
 }
 
+// Switch the currency values to see the converse conversion
 function reverse() {
 	const temp = currency1Element.value;
 	currency1Element.value = currency2Element.value;
 	currency2Element.value = temp;
-	handlePrimaryCurrencyChange();
+	handleCurrencyChange();
 }
 
-handlePrimaryCurrencyChange();
+// Initial API call and render with default currencies
+handleCurrencyChange();
+
 // Event listeners
-currency1Element.addEventListener("input", handlePrimaryCurrencyChange);
-currency2Element.addEventListener("input", secondaryCurrencyChange);
-amount1Element.addEventListener("input", secondaryCurrencyChange);
-amount2Element.addEventListener("input", secondaryCurrencyChange);
+currency1Element.addEventListener("input", handleCurrencyChange);
+currency2Element.addEventListener("input", handleCurrencyChange);
+amount1Element.addEventListener("input", handleCurrencyChange);
+amount2Element.addEventListener("input", handleCurrencyChange);
 swap.addEventListener("click", reverse);
