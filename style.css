@@ -122,7 +122,6 @@ button:focus {
 }
 
 .currency input {
-	margin-left: 1rem;
 	padding: 1rem;
 	border-radius: 0.2rem;
 	border: 0;
@@ -135,6 +134,17 @@ button:focus {
 .currency input:focus {
 	border: 0;
 	outline: 0;
+}
+
+.amount-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.currency-symbol {
+	padding: 0 0.5rem 0 1rem;
+	font-size: 2rem;
 }
 
 .swap-rates-container {

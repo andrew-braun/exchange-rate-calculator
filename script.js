@@ -2,6 +2,8 @@ const currency1Element = document.querySelector("#currency-1");
 const currency2Element = document.querySelector("#currency-2");
 const amount1Element = document.querySelector("#amount-1");
 const amount2Element = document.querySelector("#amount-2");
+const currency1Symbol = document.querySelector("#currency-1-symbol");
+const currency2Symbol = document.querySelector("#currency-2-symbol");
 const rateElement = document.querySelector("#rate");
 const swap = document.querySelector("#swap");
 
@@ -27,6 +29,15 @@ function handleCurrencyChange(event) {
 	// If called by event handler, find id of target
 	const target = event ? event.target.id : null;
 
+	currency1Symbol.innerHTML = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: currency1,
+	}).format(0)[0];
+
+	currency2Symbol.innerHTML = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: currency2,
+	}).format(0)[0];
 	// If primary currency is changed, initiate fetch and render
 	// Else, find stored data and use that to calculate
 	if (target === "currency-1" || target === null) {
