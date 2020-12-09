@@ -32,11 +32,13 @@ function handleCurrencyChange(event) {
 	currency1Symbol.innerHTML = new Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: currency1,
+		currencyDisplay: "narrowSymbol",
 	}).format(0)[0];
 
 	currency2Symbol.innerHTML = new Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: currency2,
+		currencyDisplay: "narrowSymbol",
 	}).format(0)[0];
 	// If primary currency is changed, initiate fetch and render
 	// Else, find stored data and use that to calculate
